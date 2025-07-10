@@ -18,13 +18,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
+                    
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('categories.index') }}">
-                            <i class="fas fa-tags"></i> Kategori
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('products.index') }}">
+                        <a class="nav-link" href="{{ route('customers.index') }}">
                             <i class="fas fa-box"></i> Produk
                         </a>
                     </li>
@@ -41,7 +37,7 @@
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
             </form>
-
+            
             </div>
         </div>
     </nav>
