@@ -6,15 +6,33 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use App\Helpers\AESCBC;
 
 class ProductController extends Controller
 {
     public function index()
     {
         $products = Product::with('category')->paginate(10);
-        return view('products.index', compact('products'));
-    }
+$decryptedToken = null;
 
+    $userId = Auth::id();
+
+if ($userId && Storage::exists("tokens/{$userId}.token")) {
+    $token = Storage::get("tokens/{$userId}.token");
+
+    $decryptedToken = AESCBC::decrypt(
+        $token,
+        config('app.aes_key'),
+        config('app.aes_iv')
+    );
+}
+
+    return view('products.index', [
+        'products' => $products,
+        'decryptedToken' => $decryptedToken
+    ]);
+}   
     public function create()
     {
         $categories = Category::all();

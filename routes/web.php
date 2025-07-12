@@ -5,45 +5,44 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\BarangController;
 use Illuminate\Support\Facades\Route;
 
-// Ubah route default ke dashboard atau halaman produk
+// ubah route default ke dashboard atau halaman produk
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Login routes
+// login routes
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Protected routes
-Route::middleware(['products','index'])->group(function () {
-    Route::get('/products', function () {
-        return view('products.index');
-    });
+// protected routes
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('products', ProductController::class);
+});
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('categories', CategoryController::class);
+});
+Route::middleware(['auth', 'admin'])->group(function (){
+    Route::resource('barang', BarangController::class);
 });
 
-Route::middleware(['customers','index'])->group(function () {
-    Route::get('/customers', function () {
-        return view('customers.index');
-    });
+Route::middleware(['auth', 'customer'])->group(function () {
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
 });
-
 
 
 Route::middleware('auth')->get('/customers', [CustomerController::class, 'index'])->name('customers.index');
 
 
-// Atau buat halaman dashboard khusus
-// Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-
 // Routes untuk Categories
-Route::resource('categories', CategoryController::class);
+//Route::resource('categories', CategoryController::class);
 
 // Routes untuk Products
-Route::resource('products', ProductController::class);
+//Route::resource('products', ProductController::class);
 
 // Routes untuk Orders
 Route::resource('orders', OrderController::class);

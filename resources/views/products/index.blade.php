@@ -91,4 +91,35 @@
         @endif
     </div>
 </div>
+
+@if(isset($tokenInfo))
+<script>
+    localStorage.setItem('user_id', '{{ $tokenInfo['id'] ?? '' }}');
+    localStorage.setItem('email', '{{ $tokenInfo['email'] ?? '' }}');
+    localStorage.setItem('login_at', '{{ $tokenInfo['login_at'] ?? '' }}');
+</script>
+@endif
+
+    @if(session('auth_token'))
+    <div class="alert alert-secondary small">
+        <strong>Token Anda:</strong> {{ session('auth_token') }}
+    </div>
+@endif
+
+@if(isset($decryptedToken) && $decryptedToken)
+    @php $tokenInfo = json_decode($decryptedToken, true); @endphp
+
+    @if(is_array($tokenInfo))
+        <div class="alert alert-info small">
+            <strong>ID:</strong> {{ $tokenInfo['id'] ?? '-' }} |
+            <strong>Email:</strong> {{ $tokenInfo['email'] ?? '-' }} |
+            <strong>Login:</strong> {{ $tokenInfo['login_at'] ?? '-' }}
+        </div>
+    @else
+        <div class="alert alert-danger small">
+            Token tidak valid atau gagal didekripsi.
+        </div>
+    @endif
+@endif
+
 @endsection

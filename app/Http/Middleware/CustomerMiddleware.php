@@ -9,10 +9,15 @@ class CustomerMiddleware
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role === 'customer') {
-            return $next($request);
+        if (!Auth::check()) {
+            return redirect('/login'); // Belum login
         }
 
-        return redirect('/login');
+        if (Auth::user()->role !== 'customer') {
+            return redirect('/login'); // Bukan customer
+        }
+
+        return $next($request);
     }
 }
+

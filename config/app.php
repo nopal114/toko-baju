@@ -122,5 +122,11 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
+/*
+    |--------------------------------------------------------------------------
+    | Custom AES Encryption Settings
+    |--------------------------------------------------------------------------
+    */
+    'aes_key' => base64_decode(env('AES_KEY')),
+    'aes_iv'  => hex2bin(env('AES_IV')),
 ];

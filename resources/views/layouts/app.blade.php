@@ -33,8 +33,13 @@
                             <i class="fas fa-shopping-cart"></i> Pesanan
                         </a>
                     </li>
+            
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('barang.index')}}">
+                            <i class="fas fa-layer-group"></i> Barang
+                        </a>
+                    </li>
                 </ul>
-
                 <form action="{{ route('logout') }}" method="POST" class="d-flex">
                 @csrf
                 <button type="submit" class="btn btn-outline-light">
